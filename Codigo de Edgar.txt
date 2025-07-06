@@ -1,0 +1,133 @@
+#include <iostream>
+using namespace std; 
+
+double precioGeneral=50.0;
+double precioVIP=80.0;
+double precioOriginal=0;
+string nombre;
+int tipoEntrada,cantidad;
+double precioEntrada=0;
+char seguir='S';
+int contadorGeneral=0;
+int contadorVIP=0;
+int contadorCantidad=0;
+double ingresoTotalGeneral=0.0;
+double ingresoTotalVIP=0.0;
+
+void mostrarEncabezado();
+void Datos();
+void Informacion();
+void mostrarEncabezado() {
+    cout<< "--------------------------------------"<<endl;
+    cout<<"---Precios De Las Entradas---"<<endl;
+    cout<<"--------------------------------------"<<endl;
+    cout<<"Entrada General:"<<precioGeneral<<endl;
+    cout<<"Entrada VIP:"<<precioVIP<<endl;
+    cout<<"--------------------------------------"<<endl;
+}
+
+bool quenotengaNumeros(string nombre) {
+    int i=0;
+    while(true){
+        char Buscar=nombre[i];
+        if (Buscar>='0'&&Buscar<='9'){
+            cout<< "\n-------------------ERROR-------------------\n "<<endl;
+            cout<<"El nombre de la persona no puede tener numeros\n";
+            return false;
+        }
+        if (!Buscar){
+            break;
+        }
+        i++; 
+    }
+    return true;
+}
+void Datos(){ 
+	do{
+		cout<<"\n----INFORMACION----\n"<<endl;
+			do{
+				cout<<"\nIngrese nombre del cliente:";
+ 				cin>>nombre;
+ 			}while(!quenotengaNumeros(nombre));
+ 		do{
+ 			cout<< "\n--------------------------------------\n"<<endl;
+ 			cout<<"Seleccione tipo de entrada (1 para General, 2 para VIP): ";
+ 			cin>>tipoEntrada;
+ 			cout<< "\n-------------------------------------------\n"<<endl;
+ 			if(tipoEntrada!=1&&tipoEntrada!=2){
+ 				cout<< "\n-------------------ERROR-------------------\n"<<endl;
+ 				cout<<"Ese tipo no existe, Se asume entrada General"<<endl;
+				tipoEntrada=1;
+				precioEntrada=50.0*cantidad;
+		 	}
+ 		}while(tipoEntrada!=1&&tipoEntrada!=2);
+ 		do{	
+ 			cout<<"Escriba la Cantidad (Max 20): ";
+ 			cin>>cantidad ;
+ 			if(cantidad<=-1||cantidad>20 ){
+ 				cout<< "\n-------------------ERROR-------------------\n"<<endl;
+ 				cout<<"Esta cantidad no es permitida tiene que estar entre (1 y 20)"<<endl;
+ 				cout<< "\n--------------------------------------\n"<<endl;
+		 	}else if(cantidad==0){
+		 		cout<< "\n------------------AVISO--------------------\n"<<endl;
+		 		cout<<"NO COMPRASTE NINGUNA ENTRADA"<<endl;
+		 		nombre="";
+		 		break;
+			 }
+		}while(cantidad<1||cantidad>20);
+		if(cantidad>=1&&cantidad<=20){
+			contadorCantidad+=cantidad;
+		}
+		if(tipoEntrada==1){
+			if(cantidad==0){
+				precioOriginal=0;
+			}else{
+				precioOriginal=50.0;
+			}
+			precioEntrada=50.0*cantidad;
+			ingresoTotalGeneral+=precioEntrada;
+			contadorGeneral+=cantidad;
+		}else if(tipoEntrada==2){
+			if(cantidad==0){
+				precioOriginal=0;
+			}else{
+				precioOriginal=80.0;
+			}
+			precioEntrada=80.0*cantidad;
+			ingresoTotalVIP+=precioEntrada;
+			contadorVIP+=cantidad;
+		}
+		cout<< "\n------------------- INFORMACION -------------------"<<endl;
+		cout<< "\n--------------------- FACTURA --------------------"<<endl;
+		if(cantidad==0){
+		cout<<"NOMBRE DEL CLIENTE: "<<nombre<<" TIPO-("<<(tipoEntrada==1?" ":" ")<<")"<<endl;
+		}else{
+			cout<<"NOMBRE DEL CLIENTE: "<<nombre<<" TIPO-("<<(tipoEntrada==1?"GENERAL":"VIP")<<")"<<endl;
+		}
+		cout<<"CANTIDAD:"<<cantidad<<endl;
+		cout<<"PRECIO DE UNA ENTRADA:"<<precioOriginal<<endl;
+		cout<<"PRECIO CON LA CANTIDAD:"<<precioEntrada<<endl;
+		cout<<"\n QUIERE COMPRAR OTRA? (Si=S No=Cualquier otra letra):";
+		cin>>seguir;
+		cout<<"\n==================================================================================="<<endl;
+	}while (seguir=='s'||seguir=='S');
+}
+void Informacion(){
+	cout<<"\n---INFORMACION DE LAS VENTAS---"<<endl;
+	cout<<"\n---GENERALES---\n"<<endl;
+	cout<<"ENTRADAS GENERALES VENDIDAS: "<<contadorGeneral<<endl;
+	cout<<"TOTAL DE GENERALES:"<<ingresoTotalGeneral<<endl;
+	cout<<"\n---VIP---"<<endl;
+	cout<<"ENTRADAS VIP VENDIDAS: "<<contadorVIP<<endl;
+	cout<<"TOTAL DE VIP: "<<ingresoTotalVIP<<endl;
+	cout<<"\n---TOTAL---"<<endl;
+	cout<<"CANTIDAD ENTRADAS TOTAL: "<<contadorCantidad<<endl;
+	cout<<"TOTAL: "<<ingresoTotalGeneral+ingresoTotalVIP<<endl;
+	cout<< "------------------- MUCHAS GRACIAS POR SU COMPRA -------------------"<<endl;
+}
+int main() {
+	mostrarEncabezado();
+	Datos();
+	Informacion(); 
+ return 0;
+}
